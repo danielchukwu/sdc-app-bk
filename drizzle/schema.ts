@@ -8,6 +8,7 @@ export const cases = sqliteTable('cases', {
   description: text('description', { length: 2000}).notNull(),
   location: text('location', { length: 50 }).notNull(),
   type: text('type', { length: 15 }).notNull(),
+  createdAt: text('timestamp').notNull().default(sql`(current_timestamp)`),
 });
 export type TCases = typeof cases.$inferInsert;
 export const casesRelations = relations(cases, ({many}) => ({
@@ -22,6 +23,7 @@ export const offenders = sqliteTable('offenders', {
   statement: text('statement', { length: 250}).notNull(),
 
   caseId: text('case_id', { length: 50 }).references(() => cases.id, {onDelete: 'cascade', onUpdate: 'no action'}),
+  createdAt: text('timestamp').notNull().default(sql`(current_timestamp)`),
 });
 export type TOffenders = typeof offenders.$inferInsert;
 export const offendersRelations = relations(offenders, ({one}) => ({
